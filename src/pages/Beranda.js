@@ -1,7 +1,7 @@
 import React from "react";
 
 export const Beranda = () => {
-  return <div>Beranda</div>;
+  return <div className="Beranda">Beranda</div>;
 };
 
 export default Beranda;
