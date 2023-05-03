@@ -1,14 +1,12 @@
 import React from "react";
-import { Box } from "@mui/material";
+import Box from "@mui/material/Box";
 
-export const Beranda = () => {
+export default function Beranda() {
   return (
-    <div className="Beranda">
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <h4>Beranda</h4>
+    <>
+      <Box height={500}>
+        <div>Beranda</div>
       </Box>
-    </div>
+    </>
   );
-};
-
-export default Beranda;
+}

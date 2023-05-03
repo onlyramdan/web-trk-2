@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -6,6 +6,7 @@ import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
+import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -15,13 +16,12 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import HomeIcon from "@mui/icons-material/Home";
-import BreakfastDiningIcon from "@mui/icons-material/BreakfastDining";
-import AutoStoriesIcon from "@mui/icons-material/AutoStories";
-import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
-import Logo from "./../asset/logotrk.png";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
+import Beranda from "../pages/Beranda";
+import PinjamBuku from "../pages/PinjamBuku";
 
-const drawerWidth = 250;
+const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -43,6 +43,7 @@ const closedMixin = (theme) => ({
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
 });
+
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -87,7 +88,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" 
 
 export default function MiniDrawer() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [menudata, setMenudata] = useState("Beranda");
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -118,12 +120,17 @@ export default function MiniDrawer() {
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
-          <img src={Logo} alt="Logo" width={"190px"} />
           <IconButton onClick={handleDrawerClose}>{theme.direction === "rtl" ? <ChevronRightIcon /> : <ChevronLeftIcon />}</IconButton>
         </DrawerHeader>
         <Divider />
         <List>
-          <ListItem disablePadding sx={{ display: "block" }}>
+          <ListItem
+            disablePadding
+            sx={{ display: "block" }}
+            onClick={() => {
+              setMenudata("Beranda");
+            }}
+          >
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -138,12 +145,18 @@ export default function MiniDrawer() {
                   justifyContent: "center",
                 }}
               >
-                <HomeIcon />
+                <InboxIcon />
               </ListItemIcon>
-              <ListItemText primary={"Beranda"} sx={{ opacity: open ? 1 : 0 }} />
+              <ListItemText primary="Beranda" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding sx={{ display: "block" }}>
+          <ListItem
+            disablePadding
+            sx={{ display: "block" }}
+            onClick={() => {
+              setMenudata("Peminjaman Buku");
+            }}
+          >
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -158,54 +171,17 @@ export default function MiniDrawer() {
                   justifyContent: "center",
                 }}
               >
-                <BreakfastDiningIcon />
+                <InboxIcon />
               </ListItemIcon>
-              <ListItemText primary={"Peminjaman Barang"} sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding sx={{ display: "block" }}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <AutoStoriesIcon />
-              </ListItemIcon>
-              <ListItemText primary={"E-library"} sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding sx={{ display: "block" }}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <MeetingRoomIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Peminjaman Ruangan"} sx={{ opacity: open ? 1 : 0 }} />
+              <ListItemText primary="Peminjaman Buku" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
         </List>
-        <Divider />
       </Drawer>
+      <Box component="main" sx={{ flexGrow: 1, p: 10 }}>
+        {menudata === "Beranda" && <Beranda />}
+        {menudata === "Peminjaman Buku" && <PinjamBuku />}
+      </Box>
     </Box>
   );
 }
